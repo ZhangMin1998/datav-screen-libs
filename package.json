@@ -1,0 +1,15 @@
+{
+  "name": "datav-screen-libs",
+  "version": "1.0.0",
+  "description": "datav components library",
+  "main": "index.js",
+  "scripts": {
+    "dev": "rollup -wc rollup.config.dev.js"
+  },
+  "keywords": [],
+  "author": "zm <1464253423@qq.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "rollup": "^3.26.1"
+  }
+}
