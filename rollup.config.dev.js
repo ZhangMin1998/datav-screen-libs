@@ -1,4 +1,5 @@
 const path = require('path')
+const resolve = require('rollup-plugin-node-resolve')
 
 const inputPath = path.resolve(__dirname, './src/index.js')
 // console.log(inputPath)
@@ -17,5 +18,8 @@ module.exports = {
       file: outputEsPath,
       format: 'es', // umd cjs es
     }
+  ],
+  plugins: [
+    resolve()
   ]
 }

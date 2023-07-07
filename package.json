@@ -10,6 +10,10 @@
   "author": "zm <1464253423@qq.com>",
   "license": "ISC",
   "devDependencies": {
-    "rollup": "^3.26.1"
+    "rollup": "^3.26.1",
+    "rollup-plugin-node-resolve": "^5.2.0"
+  },
+  "dependencies": {
+    "sam-test-data": "^0.0.5"
   }
 }
