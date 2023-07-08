@@ -4,12 +4,14 @@
   "description": "datav components library",
   "main": "index.js",
   "scripts": {
-    "dev": "rollup -wc rollup.config.dev.js"
+    "dev": "rollup -wc rollup.config.dev.js",
+    "build": "rollup -c rollup.config.dev.js"
   },
   "keywords": [],
   "author": "zm <1464253423@qq.com>",
   "license": "ISC",
   "devDependencies": {
+    "@babel/preset-env": "^7.22.7",
     "rollup": "^3.26.1",
     "rollup-plugin-node-resolve": "^5.2.0"
   },
