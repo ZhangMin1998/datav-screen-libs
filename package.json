@@ -2,13 +2,21 @@
   "name": "datav-screen-libs",
   "version": "1.0.0",
   "description": "datav components library",
-  "main": "index.js",
+  "main": "dist/datav.js",
   "scripts": {
     "dev": "rollup -wc rollup.config.dev.js",
     "build": "rollup -c rollup.config.dev.js",
     "build:prod": "rollup -c rollup.config.prod.js"
   },
-  "keywords": [],
+  "files": [
+    "dist",
+    "src"
+  ],
+  "keywords": [
+    "vue",
+    "datav",
+    "imooc"
+  ],
   "author": "zm <1464253423@qq.com>",
   "license": "ISC",
   "devDependencies": {
