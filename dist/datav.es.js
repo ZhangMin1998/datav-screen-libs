@@ -1,11 +1,20 @@
-import { openBlock, createElementBlock, toDisplayString } from 'vue';
+import { ref, computed, openBlock, createElementBlock, createElementVNode, toDisplayString } from 'vue';
 
 var script = {
   name: 'TestComponent',
   setup: function setup() {
     var message = 'zm 666';
+    var count = ref(1);
+    var doubleCount = computed(function () {
+      return count.value * 2;
+    });
+    var add = function add() {
+      count.value++;
+    };
     return {
-      message: message
+      message: message,
+      doubleCount: doubleCount,
+      add: add
     };
   }
 };
@@ -14,7 +23,11 @@ var _hoisted_1 = {
   "class": "test"
 };
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1, toDisplayString($setup.message), 1 /* TEXT */);
+  return openBlock(), createElementBlock("div", _hoisted_1, [createElementVNode("div", null, " message: " + toDisplayString($setup.message), 1 /* TEXT */), createElementVNode("div", null, " double: " + toDisplayString($setup.doubleCount), 1 /* TEXT */), createElementVNode("button", {
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $setup.add && $setup.add.apply($setup, arguments);
+    })
+  }, "add count")]);
 }
 
 function styleInject(css, ref) {

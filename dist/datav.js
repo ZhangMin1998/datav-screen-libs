@@ -1,15 +1,24 @@
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('vue')) :
   typeof define === 'function' && define.amd ? define(['vue'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.datav = factory(global.vue));
+  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.datav = factory(global.Vue));
 })(this, (function (vue) { 'use strict';
 
   var script = {
     name: 'TestComponent',
     setup: function setup() {
       var message = 'zm 666';
+      var count = vue.ref(1);
+      var doubleCount = vue.computed(function () {
+        return count.value * 2;
+      });
+      var add = function add() {
+        count.value++;
+      };
       return {
-        message: message
+        message: message,
+        doubleCount: doubleCount,
+        add: add
       };
     }
   };
@@ -18,7 +27,11 @@
     "class": "test"
   };
   function render(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, vue.toDisplayString($setup.message), 1 /* TEXT */);
+    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1, [vue.createElementVNode("div", null, " message: " + vue.toDisplayString($setup.message), 1 /* TEXT */), vue.createElementVNode("div", null, " double: " + vue.toDisplayString($setup.doubleCount), 1 /* TEXT */), vue.createElementVNode("button", {
+      onClick: _cache[0] || (_cache[0] = function () {
+        return $setup.add && $setup.add.apply($setup, arguments);
+      })
+    }, "add count")]);
   }
 
   function styleInject(css, ref) {

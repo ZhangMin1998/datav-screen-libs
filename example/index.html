@@ -4,9 +4,22 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>datav libs example</title>
-  <script src="../dist/datav.js" type="module"></script>
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="../dist/datav.js"></script>
 </head>
 <body>
-  
+  <div id="app">{{ message }}
+    <test-component></test-component>
+  </div>
+  <script>
+    Vue.createApp({
+      setup() {
+        var message = 'hello zm'
+        return {
+          message
+        }
+      }
+    }).use(window.datav).mount('#app')
+  </script>
 </body>
 </html>
