@@ -23,11 +23,9 @@
     }
   };
 
-  var _hoisted_1$2 = {
-    "class": "test"
-  };
+  var _hoisted_1$2 = /*#__PURE__*/vue.createStaticVNode("<svg width=\"0\" height=\"0\" data-v-7cc4288f><defs data-v-7cc4288f><symbol id=\"more2\" viewBox=\"0 0 100 100\" data-v-7cc4288f><circle r=\"5\" cx=\"10\" cy=\"10\" fill=\"currentColor\" data-v-7cc4288f></circle><circle r=\"5\" cx=\"10\" cy=\"30\" fill=\"currentColor\" data-v-7cc4288f></circle><circle r=\"5\" cx=\"10\" cy=\"50\" fill=\"currentColor\" data-v-7cc4288f></circle><line x1=\"30\" y1=\"10\" x2=\"90\" y2=\"10\" stroke-width=\"10\" stroke=\"currentColor\" data-v-7cc4288f></line><line x1=\"30\" y1=\"30\" x2=\"90\" y2=\"30\" stroke-width=\"10\" stroke=\"currentColor\" data-v-7cc4288f></line><line x1=\"30\" y1=\"50\" x2=\"90\" y2=\"50\" stroke-width=\"10\" stroke=\"currentColor\" data-v-7cc4288f></line></symbol></defs></svg>", 1);
   function render$2(_ctx, _cache, $props, $setup, $data, $options) {
-    return vue.openBlock(), vue.createElementBlock("div", _hoisted_1$2, [vue.createElementVNode("div", null, " message: " + vue.toDisplayString($setup.message), 1 /* TEXT */), vue.createCommentVNode(" <div>\r\n      double: {{ doubleCount }}\r\n    </div>\r\n    <button @click=\"add\">add count</button> ")]);
+    return vue.openBlock(), vue.createElementBlock(vue.Fragment, null, [vue.createCommentVNode(" <svg width=\"200px\" height=\"200px\" viewBox=\"0 0 100 100\">\r\n    <line x1=\"0\" y1=\"50\" x2=\"100\" y2=\"50\" stroke-width=\"8\" stroke=\"currentColor\" />\r\n    <line x1=\"50\" y1=\"0\" x2=\"50\" y2=\"100\" stroke-width=\"8\" stroke=\"currentColor\" />\r\n  </svg> "), vue.createCommentVNode(" <svg width=\"0\" height=\"0\" viewBox=\"0 0 100 100\">\r\n    <defs>\r\n      <g id=\"more\">\r\n        <circle r=\"5\" cx=\"10\" cy=\"10\" fill=\"currentColor\" />\r\n        <circle r=\"5\" cx=\"10\" cy=\"30\" fill=\"currentColor\" />\r\n        <circle r=\"5\" cx=\"10\" cy=\"50\" fill=\"currentColor\" />\r\n        <line x1=\"30\" y1=\"10\" x2=\"90\" y2=\"10\" stroke-width=\"10\" stroke=\"currentColor\" />\r\n        <line x1=\"30\" y1=\"30\" x2=\"90\" y2=\"30\" stroke-width=\"10\" stroke=\"currentColor\" />\r\n        <line x1=\"30\" y1=\"50\" x2=\"90\" y2=\"50\" stroke-width=\"10\" stroke=\"currentColor\" />\r\n      </g>\r\n    </defs>\r\n  </svg> "), _hoisted_1$2, vue.createCommentVNode(" <div class=\"test\">\r\n    <div>\r\n      message: {{ message }}\r\n    </div>\r\n    <div>\r\n      double: {{ doubleCount }}\r\n    </div>\r\n    <button @click=\"add\">add count</button>\r\n  </div> ")], 2112 /* STABLE_FRAGMENT, DEV_ROOT_FRAGMENT */);
   }
 
   function styleInject(css, ref) {
