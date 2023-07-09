@@ -33,6 +33,6 @@ import { ref, computed } from 'vue'
 
 <style lang="scss" scoped>
 .test{
-  color: orange;
+  color: red;
 }
 </style>

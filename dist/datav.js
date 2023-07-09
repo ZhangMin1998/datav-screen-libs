@@ -57,7 +57,7 @@
     }
   }
 
-  var css_248z$2 = ".test[data-v-7cc4288f] {\n  color: orange;\n}";
+  var css_248z$2 = ".test[data-v-7cc4288f] {\n  color: red;\n}";
   styleInject(css_248z$2);
 
   script$2.render = render$2;
