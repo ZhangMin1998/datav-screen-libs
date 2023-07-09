@@ -1,9 +1,9 @@
-import { ref, computed, openBlock, createElementBlock, createElementVNode, toDisplayString } from 'vue';
+import { ref, computed, openBlock, createElementBlock, createElementVNode, toDisplayString, createCommentVNode } from 'vue';
 
-var script = {
+var script$2 = {
   name: 'TestComponent',
   setup: function setup() {
-    var message = 'zm 666';
+    var message = 'hello Test';
     var count = ref(1);
     var doubleCount = computed(function () {
       return count.value * 2;
@@ -19,15 +19,11 @@ var script = {
   }
 };
 
-var _hoisted_1 = {
+var _hoisted_1$2 = {
   "class": "test"
 };
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("div", _hoisted_1, [createElementVNode("div", null, " message: " + toDisplayString($setup.message), 1 /* TEXT */), createElementVNode("div", null, " double: " + toDisplayString($setup.doubleCount), 1 /* TEXT */), createElementVNode("button", {
-    onClick: _cache[0] || (_cache[0] = function () {
-      return $setup.add && $setup.add.apply($setup, arguments);
-    })
-  }, "add count")]);
+function render$2(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$2, [createElementVNode("div", null, " message: " + toDisplayString($setup.message), 1 /* TEXT */), createCommentVNode(" <div>\r\n      double: {{ doubleCount }}\r\n    </div>\r\n    <button @click=\"add\">add count</button> ")]);
 }
 
 function styleInject(css, ref) {
@@ -57,20 +53,111 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = ".test[data-v-07bdddea] {\n  color: pink;\n}";
-styleInject(css_248z);
+var css_248z$2 = ".test[data-v-7cc4288f] {\n  color: green;\n}";
+styleInject(css_248z$2);
 
-script.render = render;
-script.__scopeId = "data-v-07bdddea";
-script.__file = "src/Test.vue";
+script$2.render = render$2;
+script$2.__scopeId = "data-v-7cc4288f";
+script$2.__file = "src/components/Test/Test.vue";
 
 // // import * as data from 'sam-test-data'
 // import { random, a, b } from 'sam-test-data'
 // // const data = require('sam-test-data')
 // import pkg from '../package.json'
 
-function index (Vue) {
+function Test (Vue) {
+  Vue.component(script$2.name, script$2);
+}
+
+var script$1 = {
+  name: 'TestComponent2',
+  setup: function setup() {
+    var message = 'hello Test2';
+    var count = ref(1);
+    var doubleCount = computed(function () {
+      return count.value * 2;
+    });
+    var add = function add() {
+      count.value++;
+    };
+    return {
+      message: message,
+      doubleCount: doubleCount,
+      add: add
+    };
+  }
+};
+
+var _hoisted_1$1 = {
+  "class": "test2"
+};
+function render$1(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1$1, [createElementVNode("div", null, " message: " + toDisplayString($setup.message), 1 /* TEXT */), createCommentVNode(" <div>\r\n      double: {{ doubleCount }}\r\n    </div>\r\n    <button @click=\"add\">add count</button> ")]);
+}
+
+var css_248z$1 = ".test2[data-v-f780135e] {\n  color: pink;\n}";
+styleInject(css_248z$1);
+
+script$1.render = render$1;
+script$1.__scopeId = "data-v-f780135e";
+script$1.__file = "src/components/Test2/Test2.vue";
+
+// // import * as data from 'sam-test-data'
+// import { random, a, b } from 'sam-test-data'
+// // const data = require('sam-test-data')
+// import pkg from '../package.json'
+
+function Test2 (Vue) {
+  Vue.component(script$1.name, script$1);
+}
+
+var script = {
+  name: 'TestComponent3',
+  setup: function setup() {
+    var message = 'hello Test3';
+    var count = ref(1);
+    var doubleCount = computed(function () {
+      return count.value * 2;
+    });
+    var add = function add() {
+      count.value++;
+    };
+    return {
+      message: message,
+      doubleCount: doubleCount,
+      add: add
+    };
+  }
+};
+
+var _hoisted_1 = {
+  "class": "test3"
+};
+function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return openBlock(), createElementBlock("div", _hoisted_1, [createElementVNode("div", null, " message: " + toDisplayString($setup.message), 1 /* TEXT */), createCommentVNode(" <div>\r\n      double: {{ doubleCount }}\r\n    </div>\r\n    <button @click=\"add\">add count</button> ")]);
+}
+
+var css_248z = ".test3[data-v-1932c093] {\n  color: blue;\n}";
+styleInject(css_248z);
+
+script.render = render;
+script.__scopeId = "data-v-1932c093";
+script.__file = "src/components/Test3/Test3.vue";
+
+// // import * as data from 'sam-test-data'
+// import { random, a, b } from 'sam-test-data'
+// // const data = require('sam-test-data')
+// import pkg from '../package.json'
+
+function Test3 (Vue) {
   Vue.component(script.name, script);
+}
+
+function index (Vue) {
+  // Vue.component(Test.name, Test)
+  Vue.use(Test);
+  Vue.use(Test2);
+  Vue.use(Test3);
 }
 
 export { index as default };

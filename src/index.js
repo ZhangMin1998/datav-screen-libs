@@ -1,19 +1,10 @@
-// // import * as data from 'sam-test-data'
-// import { random, a, b } from 'sam-test-data'
-// // const data = require('sam-test-data')
-// import pkg from '../package.json'
-
-// console.log(pkg)
-
-// // console.log('hello datav-screen!')
-// // console.log(data.random(100), data.a, data.b)
-// console.log(random(100), a, b)
-
-// export default random
-// // module.exports = {}
-
-import Test from './Test.vue'
+import Test from './components/Test/index'
+import Test2 from './components/Test2/index'
+import Test3 from './components/Test3/index'
 
 export default function(Vue) {
-  Vue.component(Test.name, Test)
+  // Vue.component(Test.name, Test)
+  Vue.use(Test)
+  Vue.use(Test2)
+  Vue.use(Test3)
 }

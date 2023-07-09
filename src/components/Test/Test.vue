@@ -3,10 +3,10 @@
     <div>
       message: {{ message }}
     </div>
-    <div>
+    <!-- <div>
       double: {{ doubleCount }}
     </div>
-    <button @click="add">add count</button>
+    <button @click="add">add count</button> -->
   </div>
 </template>
 
@@ -15,7 +15,7 @@ import { ref, computed } from 'vue'
   export default {
     name: 'TestComponent',
     setup() {
-      const message = 'zm 666'
+      const message = 'hello Test'
       const count = ref(1)
       const doubleCount = computed(() => count.value * 2)
       const add = () => {
@@ -33,6 +33,6 @@ import { ref, computed } from 'vue'
 
 <style lang="scss" scoped>
 .test{
-  color: pink;
+  color: green;
 }
 </style>
