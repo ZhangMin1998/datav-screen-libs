@@ -1,5 +1,5 @@
 <template>
-  <svg :style="{...style}">
+  <svg class="icon" :style="{...style}">
     <use :href="iconName"></use>
   </svg>
 </template>
@@ -21,3 +21,12 @@ export default {
   }
 }
 </script>
+
+<style lang="less" scoped>
+.icon {
+  width: 1em; height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
+}
+</style>
