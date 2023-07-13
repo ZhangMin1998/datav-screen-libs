@@ -30,6 +30,35 @@
         <line class="line" x1="0" y1="20" x2="400" y2="20" fill="none" stroke-width="20" stroke="red"></line>
       </svg>
     </div>
+
+    <!-- svg 动画（SMIL） -->
+    <div class="container">
+      <!-- 移动的方块 -->
+      <!-- <svg width="200" height="200">
+        <rect x="0" y="0" fill="pink" width="100" height="50">
+          <set attributeName="x" attributeType="XML" to="10" begin="1s" />
+          <set attributeName="x" attributeType="XML" to="20" begin="2s" />
+          <set attributeName="fill" attributeType="XML" to="green" begin="3s" />
+          <set attributeName="x" attributeType="XML" to="40" begin="4s" />
+          <set attributeName="x" attributeType="XML" to="50" begin="5s" />
+        </rect>
+      </svg> -->
+
+      <!-- 移动的小球 -->
+      <svg width="300" height="300">
+        <circle cx="0" cy="0" r="30" fill="blue" stroke="black" stroke-width="1">
+          <animate attributeName="cx" from="0" to="200" dur="5s" repeatCount="indefinite" />
+          <animate attributeName="cy" from="0" to="200" dur="5s" repeatCount="indefinite" />
+          <animate attributeName="fill" from="green" to="red" dur="5s" repeatCount="indefinite" />
+        </circle>
+      </svg>
+      <!-- 形状补间动画 -->
+      <svg width="200" height="200">
+        <polygon points="30 30 70 30 90 70 10 70" fill="#fcc" stroke="black">
+          <animate attributeName="points" attributeType="XML" to="50 30 70 50 50 90 30 50" dur="5s" fill="freeze" repeatCount="1" />
+        </polygon>
+      </svg>
+    </div>
   </div>
 </template>
 
@@ -78,7 +107,7 @@ export default {
     fill: none;
     stroke: #333;
     stroke-width: 5;
-    animation: logo 3s linear 1 forwards; // infinite forwards
+    animation: logo 3s linear infinite forwards;
   }
   @keyframes logo {
     0% {
