@@ -61,6 +61,107 @@
       </svg>
     </div>
   </div>
+  <div style="display: flex;">
+    <!-- animateMotion 标签 -->
+    <!-- 按 path 轨迹运动的正方形 -->
+    <div class="container">
+      <svg width="300" height="300" viewBox="0 0 300 300">
+        <rect x="0" y="0" width="10" height="10" fill="red">
+          <animateMotion
+            path="M 10 10 L 110 10 L 110 110 L 10 110 Z"
+            dur="5s"
+            rotate="auto"
+            fill="freeze"
+            repeatCount="indefinite"
+          />
+        </rect>
+        <path id="motion-path" d="M 10 10 L 110 10 L 110 110 L 10 110 Z" fill="none" stroke="green" />
+      </svg>
+    </div>
+    <!-- 按 path 轨迹运动返回的三边 -->
+    <div class="container">
+      <svg width="300" height="300" viewBox="0 0 300 300">
+        <rect x="0" y="0" width="10" height="10" fill="red">
+          <animateMotion
+            id="forward-rect"
+            path="M 10 10 L 110 10 L 110 110 L 10 110"
+            dur="2s"
+            rotate="0"
+            fill="freeze"
+            begin="0;backward-rect.end + 0.1s"
+          />
+          <animateMotion
+            id="backward-rect"
+            path="M 10 110 L 110 110 L 110 10 L 10 10"
+            dur="2s"
+            rotate="0"
+            fill="freeze"
+            begin="forward-rect.end + 0.1s"
+          />
+          <animate
+            id="red-to-blue"
+            attributeType="XML"
+            attributeName="fill"
+            from="red"
+            to="blue"
+            dur="2s"
+            fill="freeze"
+            begin="0; blue-to-red.end + 0.1s"
+          />
+          <animate
+            id="blue-to-red"
+            attributeType="XML"
+            attributeName="fill"
+            from="blue"
+            to="red"
+            dur="2s"
+            fill="freeze"
+            begin="red-to-blue.end + 0.1s"
+          />
+        </rect>
+        <path id="motion-path" d="M 10 10 L 110 10 L 110 110 L 10 110" fill="none" stroke="green" />
+      </svg>
+    </div>
+    <!-- 点击变色和位移 -->
+    <div class="container">
+      <svg viewBox="0 0 200 200" width="200" height="200">
+        <g id="rect1">
+          <rect x="0" y="0" rx="0" ry="0" width="100" height="100" fill="red">
+            <animate
+              attributeType="XML"
+              attributeName="fill"
+              from="red"
+              to="green"
+              begin="rect1.click"
+              dur="2s"
+              fill="freeze"
+            />
+          </rect>
+        </g>
+        <animateTransform
+          attributeType="XML"
+          attributeName="transform"
+          type="translate"
+          from="0, 0"
+          to="50, 50"
+          begin="rect1.click"
+          dur="2s"
+          fill="freeze"
+        />
+        <rect x="0" y="100" width="100" height="100" fill="blue">
+          <animate
+            attributeType="XML"
+            attributeName="fill"
+            from="blue"
+            to="green"
+            begin="rect1.click"
+            dur="2s"
+            fill="freeze"
+          />
+        </rect>
+    </svg>
+    </div>
+  </div>
 </template>
 
 <script>
