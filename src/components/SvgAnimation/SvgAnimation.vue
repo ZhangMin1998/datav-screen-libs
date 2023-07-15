@@ -50,6 +50,7 @@
           <animate attributeName="cx" from="0" to="200" dur="5s" repeatCount="indefinite" />
           <animate attributeName="cy" from="0" to="200" dur="5s" repeatCount="indefinite" />
           <animate attributeName="fill" from="green" to="red" dur="5s" repeatCount="indefinite" />
+          <animateTransform attributeName="transform" begin="0s" dur="5s" type="scale" from="1" to="2" repeatCount="indefinite"></animateTransform>
         </circle>
       </svg>
       <!-- 形状补间动画 -->
