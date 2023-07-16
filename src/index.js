@@ -4,6 +4,7 @@ import Test3 from './components/Test3/index'
 import Icon from './components/Icon/index'
 import SvgAnimation from './components/SvgAnimation'
 import DatavLoading from './components/DatavLoading'
+import DatavFlyBox from './components/DatavFlyBox'
 
 export default function(Vue) {
   // Vue.component(Test.name, Test)
@@ -13,4 +14,5 @@ export default function(Vue) {
   Vue.use(Icon)
   Vue.use(SvgAnimation)
   Vue.use(DatavLoading)
+  Vue.use(DatavFlyBox)
 }

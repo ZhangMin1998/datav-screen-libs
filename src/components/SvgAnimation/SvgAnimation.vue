@@ -161,7 +161,19 @@
         </rect>
     </svg>
     </div>
-  </div>
+    <!-- 蒙板的案例 -->
+    <div class="container">
+      <svg width="300" height="300">
+        <defs>
+          <mask id="test-mask">
+            <rect x="5" y="5" width="390" height="390" fill="green" />
+          </mask>
+        </defs>
+        <rect x="5" y="5" width="390" height="390" fill="red" />
+        <rect x="5" y="5" width="390" height="390" fill="blue" mask="url(#test-mask)"/>
+      </svg>
+
+  </div>    </div>
 </template>
 
 <script>
