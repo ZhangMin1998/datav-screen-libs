@@ -5,6 +5,7 @@ const babel = require('rollup-plugin-babel')
 const json = require('rollup-plugin-json')
 const vue = require('rollup-plugin-vue')
 const postcss = require('rollup-plugin-postcss')
+const polyfillNode = require('rollup-plugin-polyfill-node')
 
 const inputPath = path.resolve(__dirname, './src/index.js')
 // console.log(inputPath)
@@ -40,6 +41,9 @@ module.exports = {
     json(),
     postcss({
       plugins: []
+    }),
+    polyfillNode({
+      preferBuiltins: true, // 让插件优先使用polyfill来解决依赖问题
     })
   ],
   external: [

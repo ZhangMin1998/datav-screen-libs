@@ -162,15 +162,28 @@
     </svg>
     </div>
     <!-- 蒙板的案例 -->
-    <div class="container">
+    <div class="container bg_grey">
       <svg width="300" height="300">
         <defs>
           <mask id="test-mask">
             <rect x="5" y="5" width="390" height="390" fill="green" />
           </mask>
+          <linearGradient id="linearGradient">
+            <stop offset="0%" stop-color="red"></stop>
+            <stop offset="100%" stop-color="purple"></stop>
+          </linearGradient>
+          <radialGradient id="radialGradient" cx="50%" cy="50%" fx="50%" fy="50%" r="50%">
+            <!-- <stop offset="0%" stop-color="white"></stop>
+            <stop offset="10%" stop-color="yellow"></stop>
+            <stop offset="95%" stop-color="red" stop-opacity="1.5"></stop> -->
+            <stop offset="0%" stop-color="#fff" stop-opacity="1"></stop>
+            <stop offset="100%" stop-color="#fff" stop-opacity="0"></stop>
+          </radialGradient>
         </defs>
-        <rect x="5" y="5" width="390" height="390" fill="red" />
-        <rect x="5" y="5" width="390" height="390" fill="blue" mask="url(#test-mask)"/>
+        <circle cx="150" cy="150" r="150" fill="url(#radialGradient)"></circle>
+        <!-- <rect x="5" y="5" width="390" height="390" fill="url(#linearGradient)" /> -->
+        <!-- <rect x="5" y="5" width="390" height="390" fill="red" /> -->
+        <!-- <rect x="5" y="5" width="390" height="390" fill="blue" mask="url(#test-mask)"/> -->
       </svg>
 
   </div>    </div>
@@ -251,6 +264,9 @@ export default {
     stroke-dashoffset: 400;
     transition: stroke-dashoffset 0.5s ease-in;
   }
+}
+.bg_grey{
+  background: #333;
 }
 
 </style>
