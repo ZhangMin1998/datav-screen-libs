@@ -1,11 +1,14 @@
 <template>
   <div class="container" :ref="refName">
-    <slot></slot>
+    <template v-if="ready">
+      <slot></slot>
+    </template>
   </div>
 </template>
 
 <script>
-import { ref, getCurrentInstance, onMounted } from 'vue'
+import { ref, getCurrentInstance, onMounted, onUnmounted, nextTick } from 'vue'
+import { debounce } from '../../utils/index.js'
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Container',
@@ -21,27 +24,33 @@ export default {
     const height = ref(0)
     const origialWidth = ref(0) // 视口区域
     const origialHeight = ref(0)
-    let context, dom
+    const ready = ref(false)
+    let context, dom, observer
 
     const init = () => {
-      // 获取dom
-      dom = context.$refs[refName]
-      console.log(dom)
-      console.log('dom', dom.clientWidth, dom.clientHeight)
-      // 获取大屏真实尺寸
-      if (ctx.options && ctx.options.width && ctx.options.height) {
-        width.value = ctx.options.width
-        height.value = ctx.options.height
-      } else {
-        width.value = dom.clientWidth
-        height.value = dom.clientHeight
-      }
-      // 获取画布尺寸
-      if (!origialWidth.value || !origialHeight.value) {
-        origialWidth.value = window.screen.width
-        origialHeight.value = window.screen.height
-      }
-      console.log(width.value, height.value, window.screen, origialWidth.value, origialHeight.value)
+      return new Promise((resolve) => {
+        nextTick(() => {
+          // 获取dom
+          dom = context.$refs[refName]
+          console.log(dom)
+          console.log('dom', dom.clientWidth, dom.clientHeight)
+          // 获取大屏真实尺寸
+          if (ctx.options && ctx.options.width && ctx.options.height) {
+            width.value = ctx.options.width
+            height.value = ctx.options.height
+          } else {
+            width.value = dom.clientWidth
+            height.value = dom.clientHeight
+          }
+          // 获取画布尺寸
+          if (!origialWidth.value || !origialHeight.value) {
+            origialWidth.value = window.screen.width
+            origialHeight.value = window.screen.height
+          }
+          console.log(width.value, height.value, window.screen, origialWidth.value, origialHeight.value)
+          resolve()
+        })
+      })
     }
     const updateSize = () => {
       if (width.value && height.value) {
@@ -68,15 +77,48 @@ export default {
       dom.style.transform = `scale(${widthScale}, ${heightScale})`
     }
 
-    onMounted(() => {
+    const onResize = async (e) => {
+      // console.log('resize', e)
+      await init()
+      await updateScale()
+    }
+
+    const initMutationObserver = () => {
+      window.addEventListener('resize', debounce(onResize, 100))
+      const MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver
+      observer = new MutationObserver(onResize)
+      observer.observe(dom, {
+        attributes: true,
+        attributeFilter: ['style'],
+        attributeOldValue: true
+      })
+    }
+
+    const removeMutationObserver = () => {
+      if (observer) {
+        observer.disconnect()
+        observer.takeRecords()
+        observer = null
+      }
+    }
+
+    onMounted(async () => {
+      ready.value = false
       context = getCurrentInstance().ctx
-      init()
+      await init()
       updateSize()
       updateScale()
+      initMutationObserver()
+      ready.value = true
+    })
+    onUnmounted(() => {
+      window.removeEventListener('resize', debounce(onResize, 100))
+      removeMutationObserver()
     })
 
     return {
-      refName
+      refName,
+      ready
     }
   }
 }
