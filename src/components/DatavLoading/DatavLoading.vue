@@ -3,7 +3,7 @@
     <svg :width="width" :height="height" viewBox="0 0 50 50" preserveAspectRatio="xMidYMid meet">
       <!-- 
         stroke-dasharray=2*pi*r / 4
-       -->
+      -->
       <circle
         cx="25"
         cy="25"
@@ -103,6 +103,15 @@ export default {
 
 <style lang="scss" scoped>
 .loading{
-
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .loading_content{
+    margin-top: 14px;
+    font-size: 14px;
+  }
 }
 </style>

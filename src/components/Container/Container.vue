@@ -1,5 +1,5 @@
 <template>
-  <div class="container" :ref="refName">
+  <div class="datav_container" id="datav_container" :ref="refName">
     <template v-if="ready">
       <slot></slot>
     </template>
@@ -84,7 +84,6 @@ export default {
     }
 
     const initMutationObserver = () => {
-      window.addEventListener('resize', debounce(onResize, 100))
       const MutationObserver = window.MutationObserver || window.WebKitMutationObserver || window.MozMutationObserver
       observer = new MutationObserver(onResize)
       observer.observe(dom, {
@@ -108,6 +107,7 @@ export default {
       await init()
       updateSize()
       updateScale()
+      window.addEventListener('resize', debounce(onResize, 100))
       initMutationObserver()
       ready.value = true
     })
@@ -125,7 +125,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.container {
+.datav_container {
   position: fixed;
   top: 0;
   left: 0;
