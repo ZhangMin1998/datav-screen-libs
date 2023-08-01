@@ -6,6 +6,7 @@ import SvgAnimation from './components/SvgAnimation'
 import DatavLoading from './components/DatavLoading'
 import DatavFlyBox from './components/DatavFlyBox'
 import Container from './components/Container'
+import BaseScrollList from './components/BaseScrollList'
 
 export default function(Vue) {
   // Vue.component(Test.name, Test)
@@ -17,4 +18,5 @@ export default function(Vue) {
   Vue.use(DatavLoading)
   Vue.use(DatavFlyBox)
   Vue.use(Container)
+  Vue.use(BaseScrollList)
 }
