@@ -25,7 +25,7 @@
     </div>
     <div
       class="rows"
-      v-for="(item, index) in rowsData"
+      v-for="(item, index) in currentRowsData"
       :key="index"
       :style="{
         height: `${rowHeights[index]}px`,
@@ -112,7 +112,9 @@ export default {
       headerFontSize: 24,
       rowFontSize: 20,
       headerColor: 'pink',
-      rowColor: '#fff'
+      rowColor: '#fff',
+      moveNum: 1, // 移动的位置
+      duration: 1000 // 动画间隔
     }
     const actualConfig = ref([])
     const headerData = ref([])
@@ -120,6 +122,8 @@ export default {
     const rowStyle = ref([])
     const columnWidths = ref([])
     const rowsData = ref([])
+    const currentRowsData = ref([]) // 真正渲染的数据
+    const currentIndex = ref(0) // 动画指针
     const rowHeights = ref([])
     const rowBg = ref([])
     const aligns = ref([])
@@ -185,6 +189,24 @@ export default {
       }
     }
 
+    const startAnimation = async () => {
+      const config = actualConfig.value
+      const { data, rowNum, moveNum, duration } = config
+      const totalLength = data.length
+
+      if (totalLength < rowNum) return // 数据少  不滚动
+      const index = currentIndex.value
+      const _rowsData = cloneDeep(rowsData.value)
+      // 将数据头尾连接
+      const rows = _rowsData.slice(index)
+      rows.push(..._rowsData.slice(0, index))
+      currentRowsData.value = rows
+      currentIndex.value += moveNum
+      // sleep
+      await new Promise(resolve => setTimeout(resolve, duration))
+      await startAnimation()
+    }
+
     onMounted(() => {
       const _actualConfig = assign(defaultConfig, props.config)
       // 赋值rowsData
@@ -192,6 +214,9 @@ export default {
       handleHeader(_actualConfig)
       handleRows(_actualConfig)
       actualConfig.value = _actualConfig
+
+      // 展示动画
+      startAnimation()
     })
     return {
       actualConfig,
@@ -203,6 +228,7 @@ export default {
       columnWidths,
       rowHeights,
       rowsData,
+      currentRowsData,
       aligns
     }
   }
