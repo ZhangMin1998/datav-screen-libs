@@ -3,8 +3,10 @@
     <div
       class="header"
       :style="{
-        background: config.headerBg,
-        height: `${config.headerHeight}px`
+        background: actualConfig.headerBg,
+        height: `${actualConfig.headerHeight}px`,
+        fontSize: `${actualConfig.headerFontSize}px`,
+        color: actualConfig.headerColor
       }"
       >
       <div
@@ -15,6 +17,7 @@
           width: `${columnWidths[index]}px`,
           ...headerStyle[index],
         }"
+        :align="aligns[index]"
         v-html="item"
       >
 
@@ -25,7 +28,10 @@
       v-for="(item, index) in rowsData"
       :key="index"
       :style="{
-        height: `${rowHeights[index]}px`
+        height: `${rowHeights[index]}px`,
+        fontSize: `${actualConfig.rowFontSize}px`,
+        backgroundColor: index % 2 === 0 ? rowBg[1] : rowBg[0],
+        color: actualConfig.rowColor
       }"
     >
       <div
@@ -33,8 +39,10 @@
         v-for="(colData, i) in item"
         :key="colData + i"
         :style="{
-          width: `${columnWidths[i]}px`
+          width: `${columnWidths[i]}px`,
+          ...rowStyle[i]
         }"
+        :align="aligns[i]"
         v-html="colData"
       >
       </div>
@@ -77,6 +85,10 @@ export default {
       headerStyle: [],
       // header样式
       headerBg: '#999',
+      // 行样式
+      rowStyle: [],
+      // 行背景色
+      rowBg: [],
       // header高度
       headerHeight: 35,
       // header序号
@@ -87,31 +99,52 @@ export default {
       headerIndexStyle: {
         width: '50px'
       },
+      // 序号列内容样式
+      rowIndexStyle: {
+        width: '50px'
+      },
       // 数据项 二维数组
       data: [],
-      rowNum: 5
+      // 每页数据量
+      rowNum: 5,
+      // 居中方式
+      aligns: [],
+      headerFontSize: 24,
+      rowFontSize: 20,
+      headerColor: 'pink',
+      rowColor: '#fff'
     }
     const actualConfig = ref([])
     const headerData = ref([])
     const headerStyle = ref({})
+    const rowStyle = ref([])
     const columnWidths = ref([])
     const rowsData = ref([])
     const rowHeights = ref([])
+    const rowBg = ref([])
+    const aligns = ref([])
 
     const handleHeader = (config) => {
       const _headerData = cloneDeep(config.headerData)
       const _headerStyle = cloneDeep(config.headerStyle)
+      const _rowStyle = cloneDeep(config.rowStyle)
       const _rowsData = cloneDeep(config.data)
+      const _aligns = cloneDeep(config.aligns)
+
       if (!_headerData.length) return
       if (config.headerIndex) {
         _headerData.unshift(config.headerIndexContent)
         _headerStyle.unshift(config.headerIndexStyle)
+        _rowStyle.unshift(config.rowIndexStyle)
         _rowsData.forEach((rows, i) => {
           rows.unshift(i + 1)
         })
+        _aligns.unshift('center')
       }
       headerData.value = _headerData
       headerStyle.value = _headerStyle
+      rowStyle.value = _rowStyle
+      aligns.value = _aligns
 
       // 动态计算header中每一列的宽度
       let useWidth = 0 // 已经使用了的长度 不再平分
@@ -145,6 +178,11 @@ export default {
       // 如果rowNum大于实际数据长度， 则以实际数据长度为准
       const avgHeight = unuseHeight / (rowNum > rowsData.value.length ? rowsData.value.length : rowNum)
       rowHeights.value = new Array(rowNum).fill(avgHeight)
+      
+      // 获取行背景色
+      if (config.rowBg) {
+        rowBg.value = config.rowBg
+      }
     }
 
     onMounted(() => {
@@ -156,12 +194,16 @@ export default {
       actualConfig.value = _actualConfig
     })
     return {
+      actualConfig,
       id,
       headerData,
       headerStyle,
+      rowStyle,
+      rowBg,
       columnWidths,
       rowHeights,
-      rowsData
+      rowsData,
+      aligns
     }
   }
 }
@@ -175,7 +217,6 @@ export default {
   .header{
     display: flex;
     align-items: center;
-    font-size: 15px;
     .header_text{
       padding: 0 10px;
       white-space: nowrap;
@@ -191,8 +232,6 @@ export default {
     display: flex;
     align-items: center;
     .row_item{
-      
-      font-size: 24px;
     }
   }
 }
