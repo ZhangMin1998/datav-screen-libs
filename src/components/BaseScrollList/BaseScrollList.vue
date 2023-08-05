@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { v4 as uuidv4 } from 'uuid'
 import useScreen from './useScreen.js'
 import cloneDeep from 'lodash/cloneDeep'
@@ -70,7 +70,7 @@ export default {
   props: {
     config: {
       type: Object,
-      default: () => ({})
+      default: () => {}
     }
   },
   setup (props) {
@@ -135,6 +135,7 @@ export default {
     const rowHeights = ref([])
     const rowBg = ref([])
     const aligns = ref([])
+    const isAnimationStart = ref(true)
 
     let avgHeight // 行高
 
@@ -227,7 +228,8 @@ export default {
       currentRowsData.value = rows
       // 先将所有行的高度还原
       rowHeights.value = new Array(totalLength).fill(avgHeight)
-      const waitTime = 300
+      const waitTime = 200
+      if (!isAnimationStart.value) return
       await new Promise(resolve => setTimeout(resolve, waitTime))
       
       // moveNum的行高度设置0
@@ -239,12 +241,18 @@ export default {
       if (isLast >= 0) {
         currentIndex.value = isLast // 循环
       }
+      if (!isAnimationStart.value) return
       // sleep
       await new Promise(resolve => setTimeout(resolve, (duration - waitTime)))
       await startAnimation()
     }
 
-    onMounted(() => {
+    const stopAnimation = () => {
+      isAnimationStart.value = false
+    }
+
+    const update = () => {
+      stopAnimation()
       const _actualConfig = assign(defaultConfig, props.config)
       // 赋值rowsData
       rowsData.value = _actualConfig.data || []
@@ -253,8 +261,29 @@ export default {
       actualConfig.value = _actualConfig
 
       // 展示动画
+      isAnimationStart.value = true
       startAnimation()
+    }
+
+    watch(() => props.config, () => {
+      update()
+      console.log('watch', props.config)
     })
+
+    onMounted(() => {
+      // update()
+      // const _actualConfig = assign(defaultConfig, props.config)
+      // // 赋值rowsData
+      // rowsData.value = _actualConfig.data || []
+      // handleHeader(_actualConfig)
+      // handleRows(_actualConfig)
+      // actualConfig.value = _actualConfig
+
+      // // 展示动画
+      // startAnimation()
+      console.log('89898', props.config)
+    })
+
     return {
       actualConfig,
       id,
