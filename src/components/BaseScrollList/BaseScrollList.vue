@@ -111,6 +111,8 @@ export default {
       rowIndexStyle: {
         width: '50px'
       },
+      // 序号列数据内容
+      headerIndexData: [],
       // 数据项 二维数组
       data: [],
       // 每页数据量
@@ -122,7 +124,7 @@ export default {
       headerColor: 'pink',
       rowColor: '#fff',
       moveNum: 1, // 移动的位置
-      duration: 1000 // 动画间隔
+      duration: 2000 // 动画间隔
     }
     const actualConfig = ref([])
     const headerData = ref([])
@@ -152,7 +154,12 @@ export default {
         _headerStyle.unshift(config.headerIndexStyle)
         _rowStyle.unshift(config.rowIndexStyle)
         _rowsData.forEach((rows, i) => {
-          rows.unshift(i + 1)
+          // 处理序号列的数据
+          if (config.headerIndexData && config.headerIndexData.length && config.headerIndexData[i]) {
+            rows.unshift(config.headerIndexData[i])
+          } else {
+            rows.unshift(i + 1)
+          }
         })
         _aligns.unshift('center')
       }
@@ -228,7 +235,7 @@ export default {
       currentRowsData.value = rows
       // 先将所有行的高度还原
       rowHeights.value = new Array(totalLength).fill(avgHeight)
-      const waitTime = 200
+      const waitTime = 300
       if (!isAnimationStart.value) return
       await new Promise(resolve => setTimeout(resolve, waitTime))
       
@@ -267,7 +274,7 @@ export default {
 
     watch(() => props.config, () => {
       update()
-      console.log('watch', props.config)
+      // console.log('watch', props.config)
     })
 
     onMounted(() => {
@@ -307,7 +314,6 @@ export default {
   width: 100%;
   height: 100%;
   .header_text{
-    padding: 0 10px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -317,7 +323,6 @@ export default {
     display: flex;
     align-items: center;
     .header_text{
-      padding: 0 10px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -334,6 +339,7 @@ export default {
       align-items: center;
       transition: all 0.3s linear;
       .row_item{
+        height: 100%;
       }
     }
   }
