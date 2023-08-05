@@ -20,31 +20,39 @@
         :align="aligns[index]"
         v-html="item"
       >
-
       </div>
     </div>
+
     <div
-      class="rows"
-      v-for="(item, index) in currentRowsData"
-      :key="index"
+      class="rows_box"
       :style="{
-        height: `${rowHeights[index]}px`,
-        fontSize: `${actualConfig.rowFontSize}px`,
-        backgroundColor: index % 2 === 0 ? rowBg[1] : rowBg[0],
-        color: actualConfig.rowColor
+        height: `${height - actualConfig.headerHeight}px`
       }"
     >
       <div
-        class="row_item"
-        v-for="(colData, i) in item"
-        :key="colData + i"
+        class="rows"
+        v-for="(item, index) in currentRowsData"
+        :key="item.rowIndex"
         :style="{
-          width: `${columnWidths[i]}px`,
-          ...rowStyle[i]
+          height: `${rowHeights[index]}px`,
+          lineHeight: `${rowHeights[index]}px`,
+          fontSize: `${actualConfig.rowFontSize}px`,
+          backgroundColor: item.rowIndex % 2 === 0 ? rowBg[1] : rowBg[0],
+          color: actualConfig.rowColor
         }"
-        :align="aligns[i]"
-        v-html="colData"
       >
+        <div
+          class="row_item header_text"
+          v-for="(colData, i) in item.data"
+          :key="colData + i"
+          :style="{
+            width: `${columnWidths[i]}px`,
+            ...rowStyle[i]
+          }"
+          :align="aligns[i]"
+          v-html="colData"
+        >
+        </div>
       </div>
     </div>
   </div>
@@ -128,6 +136,8 @@ export default {
     const rowBg = ref([])
     const aligns = ref([])
 
+    let avgHeight // 行高
+
     const handleHeader = (config) => {
       const _headerData = cloneDeep(config.headerData)
       const _headerStyle = cloneDeep(config.headerStyle)
@@ -171,7 +181,21 @@ export default {
         }
       })
       columnWidths.value = _columnWidth
-      rowsData.value = _rowsData
+
+      const { rowNum } = config
+      if (_rowsData.length >= rowNum && _rowsData.length < rowNum * 2) {
+        // 加入两倍数据
+        const newRowData = [..._rowsData, ..._rowsData]
+        rowsData.value = newRowData.map((item, index) => ({
+          data: item,
+          rowIndex: index
+        }))
+      } else {
+        rowsData.value = _rowsData.map((item, index) => ({
+          data: item,
+          rowIndex: index
+        }))
+      }
     }
 
     const handleRows = (config) => {
@@ -180,7 +204,7 @@ export default {
       const { headerHeight, rowNum } = config
       const unuseHeight = height.value - headerHeight
       // 如果rowNum大于实际数据长度， 则以实际数据长度为准
-      const avgHeight = unuseHeight / (rowNum > rowsData.value.length ? rowsData.value.length : rowNum)
+      avgHeight = unuseHeight / (rowNum > rowsData.value.length ? rowsData.value.length : rowNum)
       rowHeights.value = new Array(rowNum).fill(avgHeight)
       
       // 获取行背景色
@@ -191,8 +215,8 @@ export default {
 
     const startAnimation = async () => {
       const config = actualConfig.value
-      const { data, rowNum, moveNum, duration } = config
-      const totalLength = data.length
+      const { rowNum, moveNum, duration } = config
+      const totalLength = rowsData.value.length
 
       if (totalLength < rowNum) return // 数据少  不滚动
       const index = currentIndex.value
@@ -201,9 +225,22 @@ export default {
       const rows = _rowsData.slice(index)
       rows.push(..._rowsData.slice(0, index))
       currentRowsData.value = rows
+      // 先将所有行的高度还原
+      rowHeights.value = new Array(totalLength).fill(avgHeight)
+      const waitTime = 300
+      await new Promise(resolve => setTimeout(resolve, waitTime))
+      
+      // moveNum的行高度设置0
+      rowHeights.value.splice(0, moveNum, ...new Array(moveNum).fill(0))
+
       currentIndex.value += moveNum
+      // 是否到达最后一组数据
+      const isLast = currentIndex.value - totalLength
+      if (isLast >= 0) {
+        currentIndex.value = isLast // 循环
+      }
       // sleep
-      await new Promise(resolve => setTimeout(resolve, duration))
+      await new Promise(resolve => setTimeout(resolve, (duration - waitTime)))
       await startAnimation()
     }
 
@@ -229,7 +266,8 @@ export default {
       rowHeights,
       rowsData,
       currentRowsData,
-      aligns
+      aligns,
+      height
     }
   }
 }
@@ -239,7 +277,13 @@ export default {
 .base_scroll_list{
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  .header_text{
+    padding: 0 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+  }
   .header{
     display: flex;
     align-items: center;
@@ -254,10 +298,14 @@ export default {
 
     }
   }
-  .rows{
-    display: flex;
-    align-items: center;
-    .row_item{
+  .rows_box{
+    overflow: hidden;
+    .rows{
+      display: flex;
+      align-items: center;
+      transition: all 0.3s linear;
+      .row_item{
+      }
     }
   }
 }
